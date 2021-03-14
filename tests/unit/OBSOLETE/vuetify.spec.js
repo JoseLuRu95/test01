@@ -10,14 +10,14 @@ import { createLocalVue, mount } from '@vue/test-utils'
 
 
 const files = [
-    {
-        'name': 'Document.pdf',
-        size: 3200000
-    },
-    {
-        'name': 'Document_2.pdf',
-        size: 4300000
-    },
+  {
+    'name': 'Document.pdf',
+    size: 3200000
+  },
+  {
+    'name': 'Document_2.pdf',
+    size: 4300000
+  },
 ]
 
 describe('CustomCard.vue', () => {
@@ -37,10 +37,10 @@ describe('CustomCard.vue', () => {
   }
 
 
-  xit('should emit an event when the action v-btn is clicked', () => {
+  it('should emit an event when the action v-btn is clicked', () => {
     const wrapper = mountFunction({
-            propsData: { files, title: 'Hi' } 
-        })
+      propsData: { files, title: 'Hi' }
+    })
 
     const event = jest.fn()
     const button = wrapper.find('.v-btn')
@@ -59,7 +59,7 @@ describe('CustomCard.vue', () => {
   })
   it("should change text displayed on button click", async () => {
     const wrapper = mountFunction({
-        propsData: { files, title: 'Testing' } 
+      propsData: { files, title: 'Testing' }
     })
     const button = wrapper.find('[data-testid="button-show"]')
 

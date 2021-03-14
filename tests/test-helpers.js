@@ -1,38 +1,50 @@
 class TestHelpers {
-  constructor( wrapper, expect) {
+  constructor(wrapper, expect) {
     this.wrapper = wrapper
     this.expect = expect
   }
-
-
+  // EVENTS //
   click(selector) {
-    this.wrapper.find(selector).trigger('click')
+    this.wrapper.find(selector).vm.$emit('click')
   }
+
+  // RENDER //
   domHas(selector) {
-    this.expect(this.wrapper.contains(selector)).toBe(true)
+    return this.expect(this.wrapper.contains(selector)).toBe(true)
   }
-
-
   find(selector) {
-      this.expect(this.wrapper.find(selector).exists()).toBeTruthy();
+    return this.expect(this.wrapper.find(selector).exists()).toBeTruthy();
   }
   hasChild(child) {
-      this.expect(this.wrapper.findComponent(child).exists()).toBeTruthy();
+    return this.expect(this.wrapper.findComponent(child).exists()).toBeTruthy();
   }
 
-
-  isVueInstance() {
-    this.expect(this.wrapper.vm).toBeTruthy();
+  // ROUTER // 
+  currentRoute(name) {
+    const route = this.wrapper.vm.$router.currentRoute.name
+    this.expect(route).toBe(name)
   }
-  hasProperty (property, type) {
+
+  // PROPS //
+  hasProperty(property, type, value) {
     let tp = type && type.toLowerCase()
-    this.expect(this.wrapper.vm.$data).toHaveProperty(property)
+    const data = this.wrapper.vm.$data
+    this.expect(data).toHaveProperty(property)
     if (type) {
-        if (tp === "array") {
-            this.expect(Array.isArray(this.wrapper.vm[property])).toBeTruthy();
-        } else {
-            this.expect(typeof this.wrapper.vm[property]).toBe(tp)
-        }
+      switch (type) {
+        case "array":
+          this.expect(Array.isArray(data[property])).toBeTruthy();
+          break;
+        case "null":
+          this.expect(data[property]).toBeNull();
+          break;
+        default:
+          this.expect(typeof data[property]).toBe(tp)
+          break;
+      }
+    }
+    if (value) {
+      this.expect(data[property]).toEqual(value);
     }
   }
 }

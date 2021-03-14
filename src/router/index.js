@@ -1,21 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import routes from "./routes"
 
 Vue.use(VueRouter)
-
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/todo',
-    name: 'ToDo',
-    component: () => import('../views/toDoList.vue')
-  }
-]
 
 const router = new VueRouter({
   mode: 'history',
@@ -23,4 +10,12 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  let promise = Promise.resolve()
+  promise
+    .then(next)
+    .catch(error => {
+      console.error(error)
+    })
+})
 export default router

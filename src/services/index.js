@@ -1,5 +1,5 @@
-import exchangeService from "./exchangeService"
+import currencyService from "./currencyService"
 
 export default {
-  exchangeService
+  currencyService
 }
