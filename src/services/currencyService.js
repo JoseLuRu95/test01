@@ -9,8 +9,8 @@ import Vue from 'vue'
 
 const currencyService = (props = {}) =>
   Vue.$http[props.request](`https://httpbin.org/${props.request}`, props.payload)
-    .then(() => {
-      return true
+    .then((response) => {
+      return response
     }).catch(err => {
       throw err
     })

@@ -35,7 +35,7 @@ const factory = (dataPro) => {
 
 
 // TESTING SECTION //
-xdescribe('Render component', () => {
+describe('Render component', () => {
   // SETUP BEFORE EACH  AND AFTER EACH //
   beforeEach(() => {
     const mockData = factoryData();
@@ -75,34 +75,6 @@ xdescribe('Properties and types', () => {
   });
 })
 
-xdescribe('Events', () => {
-  // SETUP BEFORE EACH  AND AFTER EACH //
-  beforeEach(() => {
-    const mockData = factoryData();
-    wrapper = factory(mockData)
-    h = new TestHelpers(wrapper, expect)
-  })
-
-  it('should add a new Currency', async () => {
-    wrapper.vm.addCurrency({ 'code': 'GPS', 'description': 'Euro' })
-    await wrapper.vm.$nextTick()
-    const content = wrapper.findAll('td').filter(w => w.text() === "GPS")
-    expect(content.exists()).toBeTruthy()
-  })
-  it('should delete selected Currency', async () => {
-    wrapper.vm.deleteCurrency({ 'code': 'USD', 'description': 'Dolar' })
-    await wrapper.vm.$nextTick()
-    const content = wrapper.findAll('td').filter(w => w.text() === "USD")
-    expect(content.exists()).not.toBeTruthy()
-  })
-  it('should update Currency', async () => {
-    wrapper.vm.updateCurrency({ 'code': 'USD edited', 'description': 'Dolar' })
-    await wrapper.vm.$nextTick()
-    const content = wrapper.findAll('td').filter(w => w.text() === "USD edited")
-    expect(content.exists()).toBeTruthy()
-  })
-})
-
 describe('Router push', () => {
   // SETUP BEFORE EACH  AND AFTER EACH //
   beforeEach(() => {
@@ -136,10 +108,10 @@ xdescribe('HTTP request get', () => {
   afterAll(() => {
     mock.restore()
   })
-  it('should handle 400 status', async () => {
+  it('should handle 200 status', async () => {
     mock
       .onGet("https://httpbin.org/get")
-      .reply(200, { bpi: { EUR: { code: "EUR", symbol: "&euro;", rate: "47,934.1602", description: "Euro", rate_float: 47934.1602 } } });
+      .reply(200, [{ EUR: { code: "EUR", symbol: "&euro;", rate: "47,934.1602", description: "Euro", rate_float: 47934.1602 } }]);
     wrapper = factory()
     expect(wrapper.vm.$data.loading).toBe(true)
     expect(wrapper.vm.$data.error).toBeNull()
@@ -183,7 +155,7 @@ xdescribe('HTTP request post', () => {
     await flushPromises()
     wrapper.vm.addCurrency({ 'code': 'GPS', 'description': 'Euro' })
     await flushPromises()
-    expect(wrapper.vm.$data.error).toEqual({})
+    expect(wrapper.vm.$data.error).toBeNull()
   })
   it('should receive 500 status', async () => {
     mock
@@ -222,7 +194,7 @@ xdescribe('HTTP request put', () => {
     await flushPromises()
     wrapper.vm.updateCurrency({ 'code': 'USD edited', 'description': 'Dolar' })
     await flushPromises()
-    expect(wrapper.vm.$data.error).toEqual({})
+    expect(wrapper.vm.$data.error).toBeNull()
   })
   it('should handle 500 status', async () => {
     mock
@@ -273,7 +245,36 @@ xdescribe('HTTP request delete', () => {
     await flushPromises()
     wrapper.vm.deleteCurrency({ 'code': 'USD', 'description': 'Dolar' })
     await flushPromises()
-    expect(wrapper.vm.$data.error).not.toEqual({})
+    expect(wrapper.vm.$data.error).not.toBeNull()
 
   })
 })
+
+
+// xdescribe('Events', () => {
+//   // SETUP BEFORE EACH  AND AFTER EACH //
+//   beforeEach(() => {
+//     const mockData = factoryData();
+//     wrapper = factory(mockData)
+//     h = new TestHelpers(wrapper, expect)
+//   })
+
+//   it('should add a new Currency', async () => {
+//     wrapper.vm.addCurrency({ 'code': 'GPS', 'description': 'Euro' })
+//     await wrapper.vm.$nextTick()
+//     const content = wrapper.findAll('td').filter(w => w.text() === "GPS")
+//     expect(content.exists()).toBeTruthy()
+//   })
+//   it('should delete selected Currency', async () => {
+//     wrapper.vm.deleteCurrency({ 'code': 'USD', 'description': 'Dolar' })
+//     await wrapper.vm.$nextTick()
+//     const content = wrapper.findAll('td').filter(w => w.text() === "USD")
+//     expect(content.exists()).not.toBeTruthy()
+//   })
+//   it('should update Currency', async () => {
+//     wrapper.vm.updateCurrency({ 'code': 'USD edited', 'description': 'Dolar' })
+//     await wrapper.vm.$nextTick()
+//     const content = wrapper.findAll('td').filter(w => w.text() === "USD edited")
+//     expect(content.exists()).toBeTruthy()
+//   })
+// })

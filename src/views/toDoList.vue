@@ -111,7 +111,7 @@ export default {
       apiService
         .currencyService({ request: "get" })
         .then(response => {
-          this.currencies = [...response];
+          this.currencies.push(response);
         })
         .catch(err => {
           this.error = { ...err.response };

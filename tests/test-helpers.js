@@ -10,13 +10,13 @@ class TestHelpers {
 
   // RENDER //
   domHas(selector) {
-    return this.expect(this.wrapper.contains(selector)).toBe(true)
+    this.expect(this.wrapper.contains(selector)).toBe(true)
   }
   find(selector) {
-    return this.expect(this.wrapper.find(selector).exists()).toBeTruthy();
+    this.expect(this.wrapper.find(selector).exists()).toBeTruthy();
   }
   hasChild(child) {
-    return this.expect(this.wrapper.findComponent(child).exists()).toBeTruthy();
+    this.expect(this.wrapper.findComponent(child).exists()).toBeTruthy();
   }
 
   // ROUTER // 
